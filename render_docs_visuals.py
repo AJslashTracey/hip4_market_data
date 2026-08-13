@@ -7,11 +7,41 @@ from pathlib import Path
 import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import pandas as pd
+from matplotlib.artist import Artist
+from matplotlib.lines import Line2D
+from matplotlib.markers import MarkerStyle
 
 
 REPO_ROOT = Path(__file__).resolve().parent
 SAMPLES_ROOT = REPO_ROOT / "data" / "samples"
 VISUALS_ROOT = REPO_ROOT / "docs" / "assets" / "visuals"
+
+
+def apply_matplotlib_py314_compat() -> None:
+    # Matplotlib 3.10.1 on Python 3.14 recurses while deepcopying MarkerStyle
+    # instances during Line2D.update_from(), which breaks legends, ticks, and draw().
+    def safe_update_from(self: Line2D, other: Line2D) -> None:
+        Artist.update_from(self, other)
+        self._linestyle = other._linestyle
+        self._linewidth = other._linewidth
+        self._color = other._color
+        self._gapcolor = other._gapcolor
+        self._markersize = other._markersize
+        self._markerfacecolor = other._markerfacecolor
+        self._markerfacecoloralt = other._markerfacecoloralt
+        self._markeredgecolor = other._markeredgecolor
+        self._markeredgewidth = other._markeredgewidth
+        self._unscaled_dash_pattern = other._unscaled_dash_pattern
+        self._dash_pattern = other._dash_pattern
+        self._dashcapstyle = other._dashcapstyle
+        self._dashjoinstyle = other._dashjoinstyle
+        self._solidcapstyle = other._solidcapstyle
+        self._solidjoinstyle = other._solidjoinstyle
+        self._linestyle = other._linestyle
+        self._marker = MarkerStyle(marker=other.get_marker())
+        self._drawstyle = other._drawstyle
+
+    Line2D.update_from = safe_update_from
 
 
 def configure_style() -> None:
@@ -143,6 +173,46 @@ def format_time_axis(ax: plt.Axes) -> None:
     ax.xaxis.set_major_formatter(mdates.DateFormatter("%H:%M"))
 
 
+def draw_key(
+    ax: plt.Axes,
+    entries: list[dict[str, object]],
+    *,
+    loc: str = "upper left",
+    ncol: int = 1,
+) -> None:
+    if not entries:
+        return
+
+    x0 = 0.02 if "left" in loc else 0.72
+    y0 = 0.98 if "upper" in loc else 0.08
+    col_width = 0.33 if ncol > 1 else 0.0
+    row_height = 0.08
+
+    for idx, entry in enumerate(entries):
+        col = idx % ncol
+        row = idx // ncol
+        x = x0 + col * col_width
+        y = y0 - row * row_height if "upper" in loc else y0 + row * row_height
+        color = str(entry["color"])
+        label = str(entry["label"])
+        kind = str(entry.get("kind", "line"))
+
+        if kind == "marker":
+            ax.scatter([x + 0.02], [y - 0.01], transform=ax.transAxes, color=color, s=24, clip_on=False, zorder=5)
+        else:
+            ax.plot(
+                [x, x + 0.05],
+                [y - 0.01, y - 0.01],
+                transform=ax.transAxes,
+                color=color,
+                linestyle=entry.get("linestyle", "-"),
+                linewidth=1.8,
+                clip_on=False,
+                zorder=5,
+            )
+        ax.text(x + 0.06, y - 0.01, label, transform=ax.transAxes, ha="left", va="center", color=color, fontsize=9)
+
+
 def render_argentina_egypt() -> Path:
     sample_dir = SAMPLES_ROOT / "argentina_egypt_live"
     mids = load_mids(sample_dir)
@@ -181,7 +251,18 @@ def render_argentina_egypt() -> Path:
     add_panel_label(ax_moves, "Moves from sample start")
     ax_moves.set_ylabel("bps")
     format_time_axis(ax_moves)
-    ax_moves.legend(frameon=False, ncol=2, loc="upper left")
+    draw_key(
+        ax_moves,
+        [
+            {"label": f"{side} game", "color": cfg["color"], "linestyle": "-"}
+            for side, cfg in sides.items()
+        ]
+        + [
+            {"label": f"{side} champion", "color": cfg["color"], "linestyle": (0, (4, 2))}
+            for side, cfg in sides.items()
+        ],
+        ncol=2,
+    )
 
     for side, cfg in sides.items():
         curve = lag_curve(bbo[side]["game"], bbo[side]["champion"])
@@ -194,7 +275,10 @@ def render_argentina_egypt() -> Path:
     add_panel_label(ax_lag, "Lag curve")
     ax_lag.set_xlabel("champion lag vs game (seconds)")
     ax_lag.set_ylabel("corr")
-    ax_lag.legend(frameon=False, loc="upper left")
+    draw_key(
+        ax_lag,
+        [{"label": side, "color": cfg["color"], "linestyle": "-"} for side, cfg in sides.items()],
+    )
 
     for side, cfg in sides.items():
         responses = event_responses(bbo[side]["game"], bbo[side]["champion"])
@@ -223,16 +307,22 @@ def render_argentina_egypt() -> Path:
     add_panel_label(ax_scatter, "Event jump vs 5s champion move")
     ax_scatter.set_xlabel("game jump (bps)")
     ax_scatter.set_ylabel("champion move after 5s (bps)")
-    ax_scatter.legend(frameon=False, loc="upper left")
+    draw_key(
+        ax_scatter,
+        [{"label": side, "color": cfg["color"], "kind": "marker"} for side, cfg in sides.items()],
+    )
 
     add_panel_label(ax_response, "Jump size vs response time")
     ax_response.set_xlabel("|game jump| (bps)")
     ax_response.set_ylabel("response time (s)")
-    ax_response.legend(frameon=False, loc="upper left")
+    draw_key(
+        ax_response,
+        [{"label": side, "color": cfg["color"], "kind": "marker"} for side, cfg in sides.items()],
+    )
 
-    fig.tight_layout()
+    fig.subplots_adjust(left=0.08, right=0.98, top=0.94, bottom=0.08, wspace=0.28, hspace=0.32)
     out_path = VISUALS_ROOT / "argentina_egypt_cross_market_lag_detail.png"
-    fig.savefig(out_path, bbox_inches="tight")
+    fig.savefig(out_path)
     plt.close(fig)
     return out_path
 
@@ -273,7 +363,11 @@ def render_france_sweden() -> Path:
     add_panel_label(ax_moves, "Moves from sample start")
     ax_moves.set_ylabel("bps")
     format_time_axis(ax_moves)
-    ax_moves.legend(frameon=False, ncol=2, loc="upper left")
+    draw_key(
+        ax_moves,
+        [{"label": cfg["label"], "color": cfg["color"], "linestyle": cfg["linestyle"]} for cfg in focus.values()],
+        ncol=2,
+    )
 
     for coin, cfg in focus.items():
         points = events[events["coin"] == coin]
@@ -291,7 +385,11 @@ def render_france_sweden() -> Path:
     add_panel_label(ax_time, "Impulse pressure over time")
     ax_time.set_ylabel("signed notional change (k)")
     format_time_axis(ax_time)
-    ax_time.legend(frameon=False, ncol=2, loc="upper left")
+    draw_key(
+        ax_time,
+        [{"label": cfg["label"], "color": cfg["color"], "kind": "marker"} for cfg in focus.values()],
+        ncol=2,
+    )
 
     box_data = []
     box_labels = []
@@ -323,17 +421,22 @@ def render_france_sweden() -> Path:
     add_panel_label(ax_scatter, "Pressure vs immediate mid move")
     ax_scatter.set_xlabel("signed notional change (k)")
     ax_scatter.set_ylabel("mid move (bps)")
-    ax_scatter.legend(frameon=False, ncol=2, loc="upper left")
+    draw_key(
+        ax_scatter,
+        [{"label": cfg["label"], "color": cfg["color"], "kind": "marker"} for cfg in focus.values()],
+        ncol=2,
+    )
 
-    fig.tight_layout()
+    fig.subplots_adjust(left=0.08, right=0.98, top=0.94, bottom=0.08, wspace=0.28, hspace=0.32)
     out_path = VISUALS_ROOT / "france_sweden_orderbook_detail.png"
-    fig.savefig(out_path, bbox_inches="tight")
+    fig.savefig(out_path)
     plt.close(fig)
     return out_path
 
 
 def main() -> int:
     VISUALS_ROOT.mkdir(parents=True, exist_ok=True)
+    apply_matplotlib_py314_compat()
     configure_style()
     outputs = [render_argentina_egypt(), render_france_sweden()]
     for path in outputs:
