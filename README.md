@@ -105,7 +105,7 @@ The collectors generally subscribe to:
 - periodic REST snapshots for mids and books
 
 Some collectors also derive event files such as impulse or order-book pressure events.
-
+[Hyperliquid websocket docs](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket)
 
 ## workflow:  
 
