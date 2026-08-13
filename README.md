@@ -112,9 +112,9 @@ Some collectors also derive event files such as impulse or order-book pressure e
 ## workflow:  
 
 1. Run a market-specific collector during live trading.
-2. Store raw websocket and REST snapshots under `outputs/<dataset>/`.
+2. Store raw websocket and REST snapshots.
 3. Export local HIP-4 database snapshots when needed.
-4. Run monitor or backtest tools against the stored data.
+4. Run monitor or backtest tools against the stored data and see if I can exploit anything on the next game.
 5. Compare apparent signal quality against actual executable liquidity.
 
 This last step is where most ideas failed.
