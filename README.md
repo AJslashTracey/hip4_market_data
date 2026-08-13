@@ -95,4 +95,5 @@ Some collectors also derive event files such as impulse or order-book pressure e
 
 This last step is where most ideas failed.
 
-See [docs/datasets.md](docs/datasets.md), [docs/findings.md](docs/findings.md), and [docs/samples.md](docs/samples.md).
+See [docs/datasets.md](docs/datasets.md), [docs/findings.md](docs/findings.md),
+[docs/samples.md](docs/samples.md), and [docs/visuals.md](docs/visuals.md).
