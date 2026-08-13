@@ -66,7 +66,7 @@ That makes it especially useful for order-book impulse analysis, even if it is n
 
 I cannot put the full datasets into this repo because they are too large for GitHub.
 
-For public publication, the repo is intended to track sampled excerpts rather than full raw captures. See [docs/samples.md](/home/aj/github/hip4_market_data/docs/samples.md).
+For public publication, the repo is intended to track sampled excerpts rather than full raw captures. See [docs/samples.md](docs/samples.md).
 
 Suggested repo layout:
 
@@ -135,4 +135,4 @@ There is value in showing a serious trading research process even when the resul
 - Add a short write-up per experiment with charts and failure modes.
 - Add a compact scored dataset table for quick orientation.
 
-See [docs/datasets.md](/home/aj/github/hip4_market_data/docs/datasets.md), [docs/findings.md](/home/aj/github/hip4_market_data/docs/findings.md), and [docs/samples.md](/home/aj/github/hip4_market_data/docs/samples.md).
+See [docs/datasets.md](docs/datasets.md), [docs/findings.md](docs/findings.md), and [docs/samples.md](docs/samples.md).
