@@ -66,35 +66,9 @@ That makes it especially useful for order-book impulse analysis, even if it is n
 
 I cannot put the full datasets into this repo because they are too large for GitHub.
 
-For public publication, the repo is intended to track sampled excerpts rather than full raw captures. See [docs/samples.md](docs/samples.md).
+For public publication, the repo is intended to showcase how the timeseries are structured sampled excerpts rather than full raw captures. See [docs/samples.md](docs/samples.md).
 
-Suggested repo layout:
 
-```text
-hip4_market_data/
-├── README.md
-├── docs/
-│   ├── datasets.md
-│   ├── findings.md
-│   └── samples.md
-├── scripts/
-│   └── publish_samples.sh
-├── collectors/
-├── analysis/
-└── data/
-    ├── samples/
-    └── notes/
-```
-
-## Key source scripts
-
-From the original working directory:
-
-- collectors: `collect_*_game.py`
-- market monitor: `monitor_hip4_outcomes.py`
-- execution simulation: `mm_backtest.py`
-- export utility: `export_local_db.py`
-- unified timeseries builder: `build_unified_timeseries.py`
 
 The collectors generally subscribe to:
 
