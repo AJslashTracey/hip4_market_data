@@ -88,6 +88,8 @@ The original working material currently lives outside this repo under:
 
 This repo includes documentation and a sync script so the relevant files can be copied in cleanly.
 
+For public publication, the repo is intended to track sampled excerpts rather than full raw captures. See [docs/samples.md](/home/aj/github/hip4_market_data/docs/samples.md).
+
 Suggested repo layout after syncing:
 
 ```text
@@ -96,12 +98,14 @@ hip4_market_data/
 ├── docs/
 │   ├── datasets.md
 │   └── findings.md
+│   └── samples.md
 ├── scripts/
 │   └── sync_from_deploy_box.sh
 ├── collectors/
 ├── analysis/
 └── data/
     ├── raw/
+    ├── samples/
     └── derived/
 ```
 
@@ -150,8 +154,8 @@ There is value in showing a serious trading research process even when the resul
 ## Next steps
 
 - Sync selected collectors and analysis scripts into this repo.
-- Copy or compress the best datasets into `data/raw/`.
+- Publish `3,000`-line excerpts into `data/samples/`.
 - Add a short write-up per experiment with charts and failure modes.
 - Add a compact scored dataset table for quick orientation.
 
-See [docs/datasets.md](/home/aj/github/hip4_market_data/docs/datasets.md) and [docs/findings.md](/home/aj/github/hip4_market_data/docs/findings.md).
+See [docs/datasets.md](/home/aj/github/hip4_market_data/docs/datasets.md), [docs/findings.md](/home/aj/github/hip4_market_data/docs/findings.md), and [docs/samples.md](/home/aj/github/hip4_market_data/docs/samples.md).
