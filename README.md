@@ -66,9 +66,7 @@ That makes it especially useful for order-book impulse analysis, even if it is n
 
 I cannot put the full datasets into this repo because they are too large for GitHub.
 
-For public publication, the repo is intended to showcase how the timeseries are structured sampled excerpts rather than full raw captures. See [docs/samples.md](docs/samples.md).
-
-
+For public publication, the repo is intended to showcase how the timeseries are structured through sampled excerpts rather than full raw captures. The checked-in files under `data/samples/<dataset>/` are usually the first 3,000 lines of each included stream, with small metadata and event files left as-is.
 
 The collectors generally subscribe to:
 
@@ -80,6 +78,32 @@ The collectors generally subscribe to:
 
 [Hyperliquid websocket docs](https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/api/websocket)
 
+The websocket files are event-driven, not fixed-frequency bars. A new line is written when Hyperliquid sends an update for a watched coin or when the collector derives an event from an update. The REST files are periodic snapshots used as lower-frequency reference data.
+
+Typical dataset layout:
+
+| File | Meaning | Frequency / size notes |
+| --- | --- | --- |
+| `metadata.jsonl` | Capture configuration, match metadata, game coins, related champion coins, and watch list. | One or a few records per run. |
+| `ws_l2book.jsonl` | Raw websocket L2 order-book updates. | Event-driven; the densest stream. |
+| `ws_bbo.jsonl` | Raw websocket best bid / best offer updates. | Event-driven; useful for executable spread and quote-age checks. |
+| `ws_trades.jsonl` | Raw websocket trade prints. | Event-driven; sparse in thin markets. |
+| `rest_mid_samples.csv` | Periodic REST mid-price snapshots across watched coins. | Periodic polling; the France/Sweden sample shows roughly 4-second polling across the watch list. |
+| `ws_l2_impulses.jsonl` | Derived L2 impulse events. | Written only when configured depth, notional, or price-move thresholds trigger. |
+| `orderbook_pressure_events.csv` | Derived book-pressure observations. | High-frequency derived series, usually close to L2 update density. |
+| `event_shocks.jsonl` / `event_state_snapshots.jsonl` | Derived shock events and surrounding state snapshots. | Sparse event files for specific lag or impulse studies. |
+
+Concrete scale example from the full `france_sweden_orderbook_live` capture:
+
+| Stream | Full capture lines | Approx. rate over configured 12,000 seconds |
+| --- | ---: | ---: |
+| `ws_l2book.jsonl` | 133,111 | 11.1 lines/sec |
+| `ws_bbo.jsonl` | 4,965 | 0.41 lines/sec |
+| `ws_trades.jsonl` | 1,744 | 0.15 lines/sec |
+| `ws_l2_impulses.jsonl` | 3,606 | 0.30 lines/sec |
+| `orderbook_pressure_events.csv` | 133,106 | 11.1 lines/sec |
+
+That capture watched six coins: the two game-market coins plus four related champion-market yes/no coins. Other captures follow the same broad structure but vary in duration, watched coins, market activity, and derived event files.
 
 Some collectors also derive event files such as impulse or order-book pressure events.
 
@@ -95,5 +119,5 @@ Some collectors also derive event files such as impulse or order-book pressure e
 
 This last step is where most ideas failed.
 
-See [docs/datasets.md](docs/datasets.md), [docs/findings.md](docs/findings.md),
-[docs/samples.md](docs/samples.md), and [docs/visuals.md](docs/visuals.md).
+See [docs/datasets.md](docs/datasets.md), [visuals.md](visuals.md), and the checked-in
+sample excerpts under [`data/samples/`](data/samples/).
