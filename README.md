@@ -2,7 +2,7 @@
 
 Research archive for Hyperliquid HIP-4 World Cup markets.
 
-During the World Cup I collected a large amount of HIP-4 market data on Hyperliquid and tested several directions:
+During the World Cup I collected a large amount of HIP-4 market data on Hyperliquid on my server and tested several directions:
 
 - market microstructure for selective market making
 - lag detection between related markets
@@ -11,23 +11,12 @@ During the World Cup I collected a large amount of HIP-4 market data on Hyperliq
 
 The main conclusion was negative but useful: there were visible inefficiencies, and in some cases clear lag, but the market quality was usually too thin to convert those signals into a robust deployable strategy. In practice, fills were the constraint. A naive MM in these markets would mostly behave like a money rinser unless it was extremely selective about where and when to quote.
 
-## What is in scope
-
-This repo is for:
-
-- collector scripts used to record live HIP-4 market data
-- exported datasets and dataset quality notes
-- monitor/backtest utilities used to evaluate liquidity and quoting conditions
-- documentation of what was tried, what looked promising, and why it still failed
-
-This repo is not claiming a profitable strategy. The point is to preserve the work, the data, and the reasoning.
-
 ## Research summary
 
 Three areas produced the most signal:
 
 - Microstructure: some markets had enough L2 and BBO coverage to study book pressure, spread behavior, and local liquidity shocks.
-- Cross-market lag: related markets sometimes moved with observable delay, but exploitable size was usually not available at the prices you would need.
+- Cross-market lag: related markets sometimes moved with observable delay, but exploitable size was usually not available at the prices you would need. I mainly looked for lag between the separate game markets and the implied probability of a team winning the World Cup.
 - Execution simulation: market-making opportunity scores looked better on paper than in live fill-constrained conditions.
 
 The practical bottleneck across almost all ideas was the same:
@@ -59,12 +48,6 @@ The strongest datasets are not the same for every use case.
 2. `france_sweden_orderbook_live`
 3. `argentina_egypt_live`
 
-Weakest quality were the smoke or test captures:
-
-- `brazil_japan_live_test`
-- `netherlands_morocco_live_smoke`
-- `norway_ivory_coast_live_smoke`
-
 `brazil_japan_live` is weaker for cross-market lag work specifically because champion-market BBO coverage was missing from the exported set, even though raw game-market files exist.
 
 ## Highlight dataset
@@ -81,32 +64,26 @@ That makes it especially useful for order-book impulse analysis, even if it is n
 
 ## Data layout
 
-The original working material currently lives outside this repo under:
-
-- `/home/aj/deploy-box/algo`
-- `/home/aj/deploy-box/algo/outputs`
-
-This repo includes documentation and a sync script so the relevant files can be copied in cleanly.
+I cannot put the full datasets into this repo because they are too large for GitHub.
 
 For public publication, the repo is intended to track sampled excerpts rather than full raw captures. See [docs/samples.md](/home/aj/github/hip4_market_data/docs/samples.md).
 
-Suggested repo layout after syncing:
+Suggested repo layout:
 
 ```text
 hip4_market_data/
 ├── README.md
 ├── docs/
 │   ├── datasets.md
-│   └── findings.md
+│   ├── findings.md
 │   └── samples.md
 ├── scripts/
-│   └── sync_from_deploy_box.sh
+│   └── publish_samples.sh
 ├── collectors/
 ├── analysis/
 └── data/
-    ├── raw/
     ├── samples/
-    └── derived/
+    └── notes/
 ```
 
 ## Key source scripts
@@ -153,7 +130,7 @@ There is value in showing a serious trading research process even when the resul
 
 ## Next steps
 
-- Sync selected collectors and analysis scripts into this repo.
+- Add selected collectors and analysis scripts into this repo.
 - Publish `3,000`-line excerpts into `data/samples/`.
 - Add a short write-up per experiment with charts and failure modes.
 - Add a compact scored dataset table for quick orientation.
