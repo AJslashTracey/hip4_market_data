@@ -66,57 +66,80 @@ linked datasets above currently have public samples in this repository.
 Source HTML:
 `outputs/cross_market_lead_lag_all/lead_lag_dashboard.html`
 
-## World Cup Showcase
+## `brazil_japan_live`
 
-Static PNG exports of the cleaner World Cup showcase dashboards.
+Dataset sample:
+not currently published in `data/samples/`
 
-These were added here so the World Cup visuals render directly inside GitHub,
-without needing to open local HTML files. The new set keeps the useful
-match-vs-outright comparison and drops the older gross-edge framing.
-
-### Overview
-
-![World Cup showcase overview](assets/visuals/world_cup_showcase_overview.png)
-
-Source HTML:
-`outputs/world_cup_showcase/showcase_overview.html`
-
-### Brazil vs Japan
+This visual is the cleaner Brazil/Japan match-vs-outright comparison page. It
+is better suited to the dataset than the older exploratory gross-edge views.
 
 ![Brazil vs Japan showcase](assets/visuals/world_cup_brazil_japan_showcase.png)
 
 Source HTML:
 `outputs/world_cup_showcase/world_cup_round_of_32_brazil_vs_japan.html`
 
-### Germany vs Paraguay
+## `germany_paraguay_live`
+
+Dataset sample:
+not currently published in `data/samples/`
+
+This visual shows the Germany/Paraguay match market against the matching
+champion-yes markets, with the same layout used across the World Cup set.
 
 ![Germany vs Paraguay showcase](assets/visuals/world_cup_germany_paraguay_showcase.png)
 
 Source HTML:
 `outputs/world_cup_showcase/world_cup_round_of_32_germany_vs_paraguay.html`
 
-### Netherlands vs Morocco
+## `netherlands_morocco_live`
+
+Dataset sample:
+not currently published in `data/samples/`
+
+This is the strongest of the non-published Round of 32 comparison pages because
+it clearly shows the outright market leading the match market in one side pair.
 
 ![Netherlands vs Morocco showcase](assets/visuals/world_cup_netherlands_morocco_showcase.png)
 
 Source HTML:
 `outputs/world_cup_showcase/world_cup_round_of_32_netherlands_vs_morocco.html`
 
-### Ivory Coast vs Norway
+## `norway_ivory_coast_live`
+
+Dataset sample:
+not currently published in `data/samples/`
+
+This visual shows the same normalized view for Ivory Coast vs Norway: raw mids,
+rebased moves, quoted spread quality, and actual trade activity.
 
 ![Ivory Coast vs Norway showcase](assets/visuals/world_cup_ivory_coast_norway_showcase.png)
 
 Source HTML:
 `outputs/world_cup_showcase/world_cup_round_of_32_ivory_coast_vs_norway.html`
 
-### Argentina vs Egypt
+## `argentina_egypt_live`
+
+This additional visual is the cleaner high-level Argentina/Egypt comparison
+page. It complements the lag-exploit and market-dashboard visuals above with
+the same normalized layout used across the newer World Cup set.
 
 ![Argentina vs Egypt showcase](assets/visuals/world_cup_argentina_egypt_showcase.png)
 
 Source HTML:
 `outputs/world_cup_showcase/world_cup_round_of_16_argentina_vs_egypt.html`
 
-What the new World Cup pages show:
+## World Cup Showcase Overview
+
+This overview is a summary page across the World Cup datasets above. It is not
+a single-dataset visual, so it stays separate from the per-dataset entries.
+
+![World Cup showcase overview](assets/visuals/world_cup_showcase_overview.png)
+
+Source HTML:
+`outputs/world_cup_showcase/showcase_overview.html`
+
+What the World Cup showcase pages show:
 
 - Raw match-market mids and matching champion-yes mids for the same teams.
 - Rebased move-from-open views in basis points, so reaction size is easier to compare.
