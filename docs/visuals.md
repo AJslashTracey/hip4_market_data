@@ -65,3 +65,60 @@ linked datasets above currently have public samples in this repository.
 
 Source HTML:
 `outputs/cross_market_lead_lag_all/lead_lag_dashboard.html`
+
+## World Cup Showcase
+
+Static PNG exports of the cleaner World Cup showcase dashboards.
+
+These were added here so the World Cup visuals render directly inside GitHub,
+without needing to open local HTML files. The new set keeps the useful
+match-vs-outright comparison and drops the older gross-edge framing.
+
+### Overview
+
+![World Cup showcase overview](assets/visuals/world_cup_showcase_overview.png)
+
+Source HTML:
+`outputs/world_cup_showcase/showcase_overview.html`
+
+### Brazil vs Japan
+
+![Brazil vs Japan showcase](assets/visuals/world_cup_brazil_japan_showcase.png)
+
+Source HTML:
+`outputs/world_cup_showcase/world_cup_round_of_32_brazil_vs_japan.html`
+
+### Germany vs Paraguay
+
+![Germany vs Paraguay showcase](assets/visuals/world_cup_germany_paraguay_showcase.png)
+
+Source HTML:
+`outputs/world_cup_showcase/world_cup_round_of_32_germany_vs_paraguay.html`
+
+### Netherlands vs Morocco
+
+![Netherlands vs Morocco showcase](assets/visuals/world_cup_netherlands_morocco_showcase.png)
+
+Source HTML:
+`outputs/world_cup_showcase/world_cup_round_of_32_netherlands_vs_morocco.html`
+
+### Ivory Coast vs Norway
+
+![Ivory Coast vs Norway showcase](assets/visuals/world_cup_ivory_coast_norway_showcase.png)
+
+Source HTML:
+`outputs/world_cup_showcase/world_cup_round_of_32_ivory_coast_vs_norway.html`
+
+### Argentina vs Egypt
+
+![Argentina vs Egypt showcase](assets/visuals/world_cup_argentina_egypt_showcase.png)
+
+Source HTML:
+`outputs/world_cup_showcase/world_cup_round_of_16_argentina_vs_egypt.html`
+
+What the new World Cup pages show:
+
+- Raw match-market mids and matching champion-yes mids for the same teams.
+- Rebased move-from-open views in basis points, so reaction size is easier to compare.
+- Quoted spread in basis points of mid, which makes low-priced outrights and higher-priced match markets comparable.
+- Trade activity by minute, so you can see whether moves were actually printing or only sitting in quotes.
