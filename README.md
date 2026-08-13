@@ -2,7 +2,7 @@
 
 Research archive for Hyperliquid HIP-4 World Cup markets.
 
-This repo is meant to document a real trading research process, not just the outcome. During the World Cup I collected a large amount of HIP-4 market data on Hyperliquid and tested several directions:
+During the World Cup I collected a large amount of HIP-4 market data on Hyperliquid and tested several directions:
 
 - market microstructure for selective market making
 - lag detection between related markets
