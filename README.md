@@ -106,9 +106,8 @@ The collectors generally subscribe to:
 
 Some collectors also derive event files such as impulse or order-book pressure events.
 
-## Reproduction notes
 
-Typical workflow in the original project:
+## workflow:  
 
 1. Run a market-specific collector during live trading.
 2. Store raw websocket and REST snapshots under `outputs/<dataset>/`.
@@ -117,22 +116,5 @@ Typical workflow in the original project:
 5. Compare apparent signal quality against actual executable liquidity.
 
 This last step is where most ideas failed.
-
-## Why publish this
-
-There is value in showing a serious trading research process even when the result is "do not build this." This archive is intended to show:
-
-- what was collected
-- how the data was structured
-- what hypotheses were tested
-- where the edge looked real
-- why the edge was still not monetizable
-
-## Next steps
-
-- Add selected collectors and analysis scripts into this repo.
-- Publish `3,000`-line excerpts into `data/samples/`.
-- Add a short write-up per experiment with charts and failure modes.
-- Add a compact scored dataset table for quick orientation.
 
 See [docs/datasets.md](docs/datasets.md), [docs/findings.md](docs/findings.md), and [docs/samples.md](docs/samples.md).
